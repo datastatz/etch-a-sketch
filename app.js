@@ -3,14 +3,20 @@ const gridContainer = document.querySelector(".container")
 
 //Creating a function that creates 16x16 grids 
 
+let gridGenerated = false; // Flag to track if the grid has been generated
+
 function sixteenGrid () {
+
+    if (gridGenerated) return; // Checks if the the grid already has been generated
+
+
     for(i = 0; i < 256; i++) {
         const gridSquare = document.createElement("div");
         gridSquare.classList.add("grid-square"); // Add class for styling
         gridContainer.appendChild(gridSquare);
     }
 
-    button.disabled = true; // Disable the button after creating the grid
+    gridGenerated = true; // Set the flag to true to prevent future grid generation
 }
 
 //Creating a button that creates a 16x16 grid
@@ -33,18 +39,36 @@ button2.textContent = "Create custom Grid";
 function handleClick (){
     
     
-    setTimeout(() => {
-        location.reload(); // This will refresh the page after 3 second
+    gridContainer.innerHTML = "";
+    gridGenerated = false;
 
-    }, 3000);
+    // Asking the user for a new grid size
     let input = prompt("What grid size do you choose? \n(Enter a greater integer than 1)");
 
         let gridSize = parseInt(input); // Convert the input to an integer
 
         //Check if 
-        if (Number.isInteger(gridSize) && gridSize % 2 === 0) {
+        if (Number.isInteger(gridSize) && gridSize >= 2 && gridSize <= 100) {
             console.log("test worked");
-            
+
+            // Calculating the size of each grid square to ensure they fit perfectly
+            const containerSize = 630; // Container size
+            const squareSize = containerSize / gridSize; // Size of each square 
+
+
+
+
+
+            for(i = 0; i < gridSize * gridSize; i++) {
+                const gridSquare = document.createElement("div");
+                gridSquare.classList.add("grid-square"); // Add class for styling
+
+                 // Set the width and height to make them fit perfectly in the container
+                gridSquare.style.width = `${squareSize}px`;
+                gridSquare.style.height = `${squareSize}px`;
+
+                gridContainer.appendChild(gridSquare);
+            }
         }
 
         else {
